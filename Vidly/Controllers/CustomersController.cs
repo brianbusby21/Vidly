@@ -21,6 +21,11 @@ namespace Vidly.Controllers
             _context.Dispose();
         }
 
+        public ActionResult New()
+        {
+            return View();
+        }
+        
         public ActionResult Index()
         {
             //Executed immediately, otherwise, executed when iterated over in the view
