@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Vidly.Migrations;
 using Vidly.Models;
 using Vidly.ViewModels;
 
@@ -23,6 +24,39 @@ namespace Vidly.Controllers
             _context.Dispose();
         }
 
+        public ActionResult New()
+        {
+            var movieGenre = _context.Genres.ToList();
+            var viewModel = new NewMovieFormViewModel
+            {
+                MovieGenre = movieGenre 
+            };
+
+            return View("MovieForm", viewModel);
+        }
+
+        [HttpPost]//Set this as a POST request only
+        public ActionResult Save(Movie movie) //<-- Model Binding
+        {
+            if (movie.Id == 0)
+            {
+                movie.DateAdded = DateTime.Now;
+                _context.Movies.Add(movie); // Adds to memory only. DB context has a change tracking mechanism
+            }
+            else
+            {
+                var movieInDb = _context.Movies.Single(c => c.Id == movie.Id);
+                movieInDb.Name = movie.Name;
+                movieInDb.MovieGenre = movie.MovieGenre;
+                movieInDb.ReleaseDate = movie.ReleaseDate;
+                movieInDb.NumberInStock = movie.NumberInStock;
+            }
+
+            _context.SaveChanges(); // Persist the changes to DB
+
+            return RedirectToAction("Index", "Movies"); // Redirect User back to the list of customers
+        }
+
         public ViewResult Index()
         {
             var movies = _context.Movies.Include(m => m.MovieGenre).ToList();
@@ -40,6 +74,23 @@ namespace Vidly.Controllers
             }
 
             return View(movie);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
+
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new NewMovieFormViewModel
+            {
+                Movie = movie,
+                MovieGenre = _context.Genres.ToList()
+            };
+            return View("MovieForm", viewModel);
         }
 
         //// GET: Movies/Random
