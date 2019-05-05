@@ -27,15 +27,28 @@ namespace Vidly.Controllers
             var membershipTypes = _context.MembershipTypes.ToList();
             var viewModel = new NewCustomerFormViewModel
             {
+                Customer = new Customer(),
                 MembershipTypes = membershipTypes
             };
 
-            return View("Customer Form", viewModel);
+            return View("CustomerForm", viewModel);
         }
 
         [HttpPost]//Set this as a POST request only
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer) //<-- Model Binding
         {
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new NewCustomerFormViewModel
+                {
+                    Customer = customer,
+                    MembershipTypes = _context.MembershipTypes.ToList()
+                };
+
+                return View("CustomerForm", viewModel);
+            }
+
             if (customer.Id == 0)
             {
                 _context.Customers.Add(customer); // Adds to memory only. DB context has a change tracking mechanism

@@ -36,6 +36,7 @@ namespace Vidly.Controllers
         }
 
         [HttpPost]//Set this as a POST request only
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie) //<-- Model Binding
         {
             if (movie.Id == 0)
