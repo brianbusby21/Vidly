@@ -8,7 +8,7 @@ namespace Vidly.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Movies",
+                "dbo.s",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -26,9 +26,9 @@ namespace Vidly.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Movies", "MovieGenreId", "dbo.Genres");
-            DropIndex("dbo.Movies", new[] { "MovieGenreId" });
-            DropTable("dbo.Movies");
+            DropForeignKey("dbo.s", "MovieGenreId", "dbo.Genres");
+            DropIndex("dbo.s", new[] { "MovieGenreId" });
+            DropTable("dbo.s");
         }
     }
 }

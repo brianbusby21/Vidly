@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Vidly.Models.Movie>
+﻿@model IEnumerable<Vidly.Models.>
 @{
     ViewBag.Title = "Movies";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,7 +18,7 @@
         {
         <tr>
             <td>@Html.ActionLink(movie.Name, "Edit", "Movies", new { id = movie.Id }, null)</td>
-            <td>@movie.MovieGenre.Name</td>
+            <td>@movie.Genre.Name</td>
         </tr>
         }
     </tbody>

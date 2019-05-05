@@ -7,15 +7,15 @@ namespace Vidly.Migrations
     {
         public override void Up()
         {
-            DropForeignKey("dbo.Movies", "MovieGenre_Id1", "dbo.Genres");
-            DropIndex("dbo.Movies", new[] { "MovieGenre_Id1" });
-            DropTable("dbo.Movies");
+            DropForeignKey("dbo.s", "MovieGenre_Id1", "dbo.Genres");
+            DropIndex("dbo.s", new[] { "MovieGenre_Id1" });
+            DropTable("dbo.s");
         }
         
         public override void Down()
         {
             CreateTable(
-                "dbo.Movies",
+                "dbo.s",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -28,8 +28,8 @@ namespace Vidly.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
-            CreateIndex("dbo.Movies", "MovieGenre_Id1");
-            AddForeignKey("dbo.Movies", "MovieGenre_Id1", "dbo.Genres", "Id");
+            CreateIndex("dbo.s", "MovieGenre_Id1");
+            AddForeignKey("dbo.s", "MovieGenre_Id1", "dbo.Genres", "Id");
         }
     }
 }

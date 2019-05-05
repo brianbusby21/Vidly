@@ -13,5 +13,9 @@ namespace Vidly.Models
         [StringLength(255)]
         public string Name { get; set; }
 
+        public static implicit operator Genre(List<Genre> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
